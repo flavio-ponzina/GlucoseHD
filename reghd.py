@@ -73,17 +73,16 @@ class RegHD(nn.Module):
 
 
 class ExpRegHD(object):
-    def __init__(self, root_path, data_path, seq_len, label_len, pred_len, training_files, testing_files, device):
+    def __init__(self, root_path, seq_len, pred_len, label_len, dimensionality, training_files, testing_files, device):
         super(ExpRegHD, self).__init__()
         self.root_path = root_path
-        self.data_path = data_path
         self.seq_len = seq_len
-        self.label_len = label_len
         self.pred_len = pred_len
+        self.label_len = label_len
         self.training_files = training_files
         self.testing_files = testing_files
         self.device = device
-        self.HDC = RegHD(self.seq_len, 50000, self.device).to(self.device)
+        self.HDC = RegHD(self.seq_len, dimensionality, self.device).to(self.device)
 
     def _get_data(self, flag):
         data_set = Dataset_ohio(

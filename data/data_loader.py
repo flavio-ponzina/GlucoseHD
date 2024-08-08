@@ -68,7 +68,7 @@ class Dataset_ohio(Dataset):
         df_raw = pd.concat(df_raw)
     
         df_data = df_raw[["Time", 'CGM']] 
-        df_data['CGM'] = filling_CGM(df_data)
+        # df_data['CGM'] = filling_CGM(df_data)
         df_data = df_data['CGM'].to_frame()
 
         self.data = df_data.values

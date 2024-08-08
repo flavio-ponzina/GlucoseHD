@@ -5,7 +5,7 @@ import torch
 from reghd import ExpRegHD
 
 parser = argparse.ArgumentParser(description="[Informer] Long Sequences Forecasting")
-parser.add_argument("--root_path", type=str, default="../dataset/processedcsv/", help="root path of the data file")
+parser.add_argument("--root_path", type=str, default="./dataset/processedcsv/", help="root path of the data file")
 parser.add_argument("--seq_len", type=int, default=30, help="input sequence length of Informer encoder")
 parser.add_argument("--pred_len", type=int, default=6, help="prediction sequence length/forecast window")
 parser.add_argument("--label_len", type=int, default=6, help="start token length of Informer decoder")
@@ -46,13 +46,10 @@ testing_files =  [
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using {} device".format(device))
 
-
-
 torch.manual_seed(0)
 if torch.cuda.is_available():
     torch.cuda.manual_seed_all(0)
 
 exp = ExpRegHD(args.root_path, args.seq_len, args.pred_len, args.label_len, args.dimensionality, training_files, testing_files, device)
 exp.train()
-mae_, rmse_, p, t = exp.test()
-            
+mae_, rmse_, p, t = exp.test()     
