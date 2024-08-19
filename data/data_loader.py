@@ -25,28 +25,17 @@ def remove_nan_strat_end(df, attr):
         print('Unable to remove: No Attibutes Found\n')
         return 0
 
-def filling_CGM(testpath):
-    filepath = "../dataset/processedcsv/ohio540.csv"
-    a_test = pd.read_csv(filepath, usecols=['CGM'])
-    a_test = remove_nan_strat_end(a_test, 'CGM')  
+def filling_CGM(data):
+    a_test = remove_nan_strat_end(data, 'CGM')  
     AA = a_test['CGM'].fillna(1)
     return AA
 
 
 
 class Dataset_ohio(Dataset):
-    def __init__(
-        self,
-        root_path,
-        flag="train",
-        size=None,
-        training_files=None,
-        testing_files=None
-    ):
-    
-        self.seq_len = size[0]
-        self.label_len = size[1]
-        self.pred_len = size[2]
+    def __init__(self, root_path, flag="train", seq_len=30, pred_len=6, training_files=None, testing_files=None):
+        self.seq_len = seq_len
+        self.pred_len = pred_len
         self.root_path = root_path
         self.flag = flag
         self.training_files = training_files
@@ -76,11 +65,11 @@ class Dataset_ohio(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
-        seq_x = self.data[s_begin:s_end]
-        seq_y = self.data[r_begin:r_end]
+        r_begin = s_end
+        r_end = r_begin + self.pred_len 
+        seq_x = self.data_x[s_begin:s_end]
+        seq_y = self.data_x[r_begin:r_end]
         return seq_x, seq_y
 
     def __len__(self):
-        return len(self.data) - self.seq_len - self.pred_len + 1
+        return len(self.data_x) - self.seq_len - self.pred_len + 1
