@@ -2,7 +2,7 @@ import argparse
 import os
 import numpy as np
 import torch
-from reghd import ExpRegHD
+from glucosehd import ExpGlucoseHD
 
 parser = argparse.ArgumentParser(description="[Informer] Long Sequences Forecasting")
 parser.add_argument("--root_path", type=str, default="./dataset/processedcsv/", help="root path of the data file")
@@ -49,6 +49,6 @@ torch.manual_seed(0)
 if torch.cuda.is_available():
     torch.cuda.manual_seed_all(0)
 
-exp = ExpRegHD(args.root_path, args.seq_len, args.pred_len, args.dimensionality, training_files, testing_files, device)
+exp = ExpGlucoseHD(args.root_path, args.seq_len, args.pred_len, args.dimensionality, training_files, testing_files, device)
 exp.train()
 exp.test()     
